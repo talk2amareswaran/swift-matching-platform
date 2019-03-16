@@ -15,10 +15,12 @@
   <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
-
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https:/resources/demos/style.css">
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-success navbar-dark">
+<nav class="navbar navbar-expand-sm  bg-primary navbar-dark">
 	<a class="navbar-brand" href="#" style="font-weight:bold;">Swift MT-300 Messages</a>
 </nav>
 <br/>
@@ -27,10 +29,85 @@
   </div>
   
 <br/>
+
+<div class="row">
+	 <div class="col">
+	 	 <div class="card">
+	 	 	<div class="card-header bg-primary" style="font-weight:bold;color:rgb(255,255,255);">Search</div>
+	 	 	 <div class="card-body">
+				 	 	 	<div class="form-group">
+							      <label for="email">Trade Date:</label>
+							      <input type="text" class="form-control" id="datepickerTradeDateFrom" placeholder="Select From Trade Date" name="datepickerTradeDateFrom">
+							       <input type="text" class="form-control" id="datepickerTradeDateTo" placeholder="Select To Trade Date" name="datepickerTradeDateTo">
+							    </div>
+							   <div class="form-group">
+							      <label for="email">Settlement Date:</label>
+							      <input type="text" class="form-control" id="datepickerSettlementDateFrom" placeholder="Select From Settlement Date" name="datepickerSettlementDateFrom">
+							       <input type="text" class="form-control" id="datepickerSettlementTo" placeholder="Select To Settlement Date" name="datepickerSettlementTo">
+							    </div>
+							    <div class="form-group">
+							      <label for="email">Valuation Date:</label>
+							      <input type="text" class="form-control" id="datepickerValueDateFrom" placeholder="Select From Value Date" name="datepickerValueDateFrom">
+							       <input type="text" class="form-control" id="datepickerValueDateTo" placeholder="Select To Value Date" name="datepickerValueDateTo">
+							    </div>
+							    <div class="form-group">
+							      <label for="email">Currency:</label>
+							      <input type="text" class="form-control" id="currencyId" placeholder="Enter currency for search" name="currencyId">
+							    </div>
+							    <div class="form-group">
+							      <label for="email">Status:</label>
+							      <input type="text" class="form-control" id="statusId" placeholder="Enter status for search" name="statusId">
+							    </div>
+							  
+<div class="form-check-inline">
+  <label class="form-check-label">
+    <input type="radio" class="form-check-input" name="optradio" value="match" checked>Match
+  </label>
+</div>
+<div class="form-check-inline disabled">
+  <label class="form-check-label">
+    <input type="radio" class="form-check-input" name="optradio" value="unmatched">Un-match
+  </label>
+</div>
+<div class="form-check-inline disabled">
+  <label class="form-check-label">
+    <input type="radio" class="form-check-input" name="optradio" value="closefit">Close fit
+  </label>
+</div>
+							    <button type="button" class="btn btn-success float-right" id="searchBtn">Search</button>&nbsp;&nbsp;&nbsp;
+							    <button type="button" class="btn btn-success float-right" style="margin-right:15px;" id="clearBtn">Clear</button>
+	 	 	 </div>
+	 	 </div>
+	 </div>
+	  <div class="col">
+	  	<div class="card">
+    <div class="card-header bg-primary" style="font-weight:bold;color:rgb(255,255,255);">Search Results</div>
+    <div class="card-body" id="searchTable"><table id="exampleSearch" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Document</th>
+                <th>Party&nbsp;A</th>
+                <th>Party&nbsp;B</th>
+                <th>Exchange&nbsp;Rate</th>
+                <th>Buy</th>
+                <th>Sell</th>
+            </tr>
+        </thead>
+        <tbody id="matchedTbodySearch">
+        </tbody>
+        
+    </table></div> 
+    
+  </div>
+	  </div>
+	  
+</div>
+
+<br/>
 <div class="row">
   <div class="col">
   <div class="card">
-    <div class="card-header" style="font-weight:bold;">Auto matched messages</div>
+    <div class="card-header bg-primary" style="font-weight:bold;color:rgb(255,255,255);">Auto match</div>
     <div class="card-body"><table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
@@ -49,15 +126,175 @@
     
   </div>
   </div>
-  <div class="col"></div>
+  <div class="col"><div class="card">
+    <div class="card-header  bg-primary" style="font-weight:bold;color:rgb(255,255,255);">Auto Close fit</div>
+    <div class="card-body"><table id="example1" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Document</th>
+                <th>Party&nbsp;A</th>
+                <th>Party&nbsp;B</th>
+                <th>Exchange&nbsp;Rate</th>
+                <th>Buy</th>
+                <th>Sell</th>
+            </tr>
+        </thead>
+        <tbody id="matchedTbody1">
+        </tbody>
+        
+    </table></div> 
+    
+  </div></div>
   
 </div>
-
+<br/>
+<div class="row">
+	<div class="col">
+  <div class="card">
+  	<div class="card-header  bg-primary" style="font-weight:bold;color:rgb(255,255,255);">Auto Un-match</div>
+  	 <div class="card-body"><table id="example2" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Document</th>
+                <th>Party&nbsp;A</th>
+                <th>Party&nbsp;B</th>
+                <th>Exchange&nbsp;Rate</th>
+                <th>Buy</th>
+                <th>Sell</th>
+            </tr>
+        </thead>
+        <tbody id="matchedTbody2">
+        </tbody>
+        
+    </table></div> 
+  </div>
+  </div>
+</div>
 
  
   <script>
+   $( function() {
+	    $( "#datepickerTradeDateFrom" ).datepicker();
+	    $( "#datepickerTradeDateTo" ).datepicker();
+	    $( "#datepickerSettlementDateFrom" ).datepicker();
+	    $( "#datepickerSettlementTo" ).datepicker();
+	    $( "#datepickerValueDateFrom" ).datepicker();
+	    $( "#datepickerValueDateTo" ).datepicker();
+	  } );
+   
   $(document).ready(function() {
 	 
+	  
+	  
+	  $("#clearBtn").click(function(){
+		  $( "#datepickerTradeDateFrom" ).val('');
+		    $( "#datepickerTradeDateTo" ).val('');
+		    $( "#datepickerSettlementDateFrom" ).val('');
+		    $( "#datepickerSettlementTo" ).val('');
+		    $( "#datepickerValueDateFrom" ).val('');
+		    $( "#datepickerValueDateTo" ).val('');
+		    $( "#datepickerValueDateTo" ).val('');
+		    $( "#currencyId" ).val('');
+		    $( "#statusId" ).val('');
+	  });
+	  
+	  $("#searchBtn").click(function(){
+		  
+		 
+		  var radioValue = $("input[name='optradio']:checked").val();
+		  
+		  var queryParam = "?datatype="+radioValue;
+		  
+		    	if($("#datepickerTradeDateFrom").val()!=null && $("#datepickerTradeDateFrom").val()!='') {
+		    		var tradeFromDate = new Date();
+		    		
+		    		tradeFromDate.setDate($("#datepickerTradeDateFrom").val().split("/")[1]);
+		    		tradeFromDate.setMonth($("#datepickerTradeDateFrom").val().split("/")[0]);
+		    		tradeFromDate.setYear($("#datepickerTradeDateFrom").val().split("/")[2]);
+		    		queryParam= queryParam + "&tradeFromDate="+parseInt(tradeFromDate.getTime()/1000);
+		    		
+		    	} 
+			if($("#datepickerTradeDateTo").val()!=null && $("#datepickerTradeDateTo").val()!='') {
+				var tradeToDate = new Date();
+	    		
+				tradeToDate.setDate($("#datepickerTradeDateTo").val().split("/")[1]);
+				tradeToDate.setMonth($("#datepickerTradeDateTo").val().split("/")[0]);
+				tradeToDate.setYear($("#datepickerTradeDateTo").val().split("/")[2]);
+				queryParam= queryParam + "&tradeToDate="+parseInt(tradeToDate.getTime()/1000);
+		    	}
+			
+			if($("#datepickerSettlementDateFrom").val()!=null && $("#datepickerSettlementDateFrom").val()!='') {
+					var settlementFromDate = new Date();
+	    		
+					settlementFromDate.setDate($("#datepickerSettlementDateFrom").val().split("/")[1]);
+					settlementFromDate.setMonth($("#datepickerSettlementDateFrom").val().split("/")[0]);
+					settlementFromDate.setYear($("#datepickerSettlementDateFrom").val().split("/")[2]);
+					
+					queryParam= queryParam + "&settlementFromDate="+parseInt(settlementFromDate.getTime()/1000);
+	    	}
+			
+			if($("#datepickerSettlementTo").val()!=null && $("#datepickerSettlementTo").val()!='') {
+				var settlementToDate = new Date();+
+	    		
+				settlementToDate.setDate($("#datepickerSettlementTo").val().split("/")[1]);
+				settlementToDate.setMonth($("#datepickerSettlementTo").val().split("/")[0]);
+				
+				settlementToDateEpoch = parseInt(settlementToDate.getTime()/1000);
+				queryParam= queryParam + "&settlementToDate="+parseInt(settlementToDate.getTime()/1000);
+	    	}
+			
+			if($("#datepickerValueDateFrom").val()!=null && $("#datepickerValueDateFrom").val()!='') {
+				var valueFromDate = new Date();
+	    		
+				valueFromDate.setDate($("#datepickerValueDateFrom").val().split("/")[1]);
+				valueFromDate.setMonth($("#datepickerValueDateFrom").val().split("/")[0]);
+				valueFromDate.setYear($("#datepickerValueDateFrom").val().split("/")[2]);
+				queryParam= queryParam + "&valueFromDate="+parseInt(valueFromDate.getTime()/1000);
+		    	}
+			
+			if($("#datepickerValueDateTo").val()!=null && $("#datepickerValueDateTo").val()!='') {
+				var valueToDate = new Date();
+	    		
+				valueToDate.setDate($("#datepickerValueDateTo").val().split("/")[1]);
+				valueToDate.setMonth($("#datepickerValueDateTo").val().split("/")[0]);
+				valueToDate.setYear($("#datepickerValueDateTo").val().split("/")[2]);
+				queryParam= queryParam + "&valueToDate="+parseInt(valueToDate.getTime()/1000);
+	    	}
+			
+			if($("#currencyId").val()!=null && $("#currencyId").val()!='') {
+				queryParam= queryParam + "&currency="+$("#currencyId").val();
+			}
+			
+			if($("#statusId").val()!=null && $("#statusId").val()!='') {
+				queryParam= queryParam + "&status="+$("#statusId").val();
+			}
+			
+			$("#searchTable").html('');
+			
+			
+			$("#searchTable").html('<table id="exampleSearch" class="table table-striped table-bordered" style="width:100%"><thead><tr><th>Document</th><th>Party&nbsp;A</th><th>Party&nbsp;B</th><th>Exchange&nbsp;Rate</th><th>Buy</th><th>Sell</th></tr></thead><tbody id="matchedTbodySearch"></tbody></table>');
+	    
+			  $.ajax({url: "http://localhost:8080/messages"+queryParam, success: function(result){
+			    	var constrctRowHTML = "";
+			    	for(var i = 0; i < result.length; i++) {
+			    	    var obj = result[i];
+			    	    constrctRowHTML+="<tr><td>"+obj.transactionA+"</td><td>"+obj.partyA+"</td><td>"+obj.partyB+"</td><td>"+obj.exchangeRate+"</td><td style='color:blue;'>"+obj.weBuy+"</td><td style='color:green;'>"+obj.weSell+"</td></tr>";
+			    	}
+			    	
+			    	$("#matchedTbodySearch").html(constrctRowHTML);
+			    	
+			    	   var table = $('#exampleSearch').DataTable( {
+			   	        fixedHeader: true
+			   	    } );
+			  }});
+
+			  
+		  });
+	  
+	  var table = $('#exampleSearch').DataTable( {
+ 	        fixedHeader: true
+ 	    } );
+	  
 		  $.ajax({url: "http://localhost:8080/messages", success: function(result){
 		    	var constrctRowHTML = "";
 		    	for(var i = 0; i < result.length; i++) {
@@ -72,6 +309,34 @@
 		   	    } );
 		  }});
 
+		  
+		  $.ajax({url: "http://localhost:8080/closefit", success: function(result){
+		    	var constrctRowHTML = "";
+		    	for(var i = 0; i < result.length; i++) {
+		    	    var obj = result[i];
+		    	    constrctRowHTML+="<tr><td>"+obj.transactionA+"</td><td>"+obj.partyA+"</td><td>"+obj.partyB+"</td><td>"+obj.exchangeRate+"</td><td style='color:blue;'>"+obj.weBuy+"</td><td style='color:green;'>"+obj.weSell+"</td></tr>";
+		    	}
+		    	
+		    	$("#matchedTbody1").html(constrctRowHTML);
+		    	
+		    	   var table = $('#example1').DataTable( {
+		   	        fixedHeader: true
+		   	    } );
+		  }});
+		  
+		  $.ajax({url: "http://localhost:8080/proposequeue", success: function(result){
+		    	var constrctRowHTML = "";
+		    	for(var i = 0; i < result.length; i++) {
+		    	    var obj = result[i];
+		    	    constrctRowHTML+="<tr><td>"+obj.transactionA+"</td><td>"+obj.partyA+"</td><td>"+obj.partyB+"</td><td>"+obj.exchangeRate+"</td><td style='color:blue;'>"+obj.weBuy+"</td><td style='color:green;'>"+obj.weSell+"</td></tr>";
+		    	}
+		    	
+		    	$("#matchedTbody2").html(constrctRowHTML);
+		    	
+		    	   var table = $('#example2').DataTable( {
+		   	        fixedHeader: true
+		   	    } );
+		  }});
 		  
 	} );
   

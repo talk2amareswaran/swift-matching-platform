@@ -15,8 +15,18 @@ public class SwiftMessageServiceImpl implements SwiftMessageService {
 	SwiftMessageServiceDAO swiftMessageServiceDAO;
 	
 	@Override
-	public List<Message> getMessages() {
-		return swiftMessageServiceDAO.getMessages();
+	public List<Message> getMessages(String tradeFromDate, String tradeToDate, String settlementFromDate, String settlementToDate, String valueFromDate, String valueToDate, String currency, String status) {
+		return swiftMessageServiceDAO.getMessages( tradeFromDate,  tradeToDate,  settlementFromDate,  settlementToDate,  valueFromDate,  valueToDate,  currency,  status);
+	}
+
+	@Override
+	public List<Message> getCloseFit(String tradeFromDate, String tradeToDate, String settlementFromDate, String settlementToDate, String valueFromDate, String valueToDate, String currency, String status) {
+		return swiftMessageServiceDAO.getCloseFit( tradeFromDate,  tradeToDate,  settlementFromDate,  settlementToDate,  valueFromDate,  valueToDate,  currency,  status);
+	}
+
+	@Override
+	public List<Message> getProposedQueue(String tradeFromDate, String tradeToDate, String settlementFromDate, String settlementToDate, String valueFromDate, String valueToDate, String currency, String status) {
+		return swiftMessageServiceDAO.getProposedQueue( tradeFromDate,  tradeToDate,  settlementFromDate,  settlementToDate,  valueFromDate,  valueToDate,  currency,  status);
 	}
 
 }
