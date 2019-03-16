@@ -228,6 +228,91 @@ public class SwiftMessageServiceDAOImpl implements SwiftMessageServiceDAO {
 		}
 		return messagesList;
 	}
+
+	@Override
+	public List<Message> getClientAndSGData(String id) {
+	
+		
+		
+		List<Message> messagesList = new ArrayList<>();
+		try {
+			StringBuilder stringBuilder = new StringBuilder("select * from FX_SWIFT_CLIENT_DATA where id=?");
+			
+			Collection<Map<String, Object>> rows = jdbcTemplate.queryForList(stringBuilder.toString(),  new Object[] {id});
+
+			rows.stream().map((row) -> {
+				Message message = new Message();
+				message.setBeneficiary1((String) row.get("BENEFICIARY_1"));
+				message.setCode((String) row.get("CODE"));
+				message.setContractDate((String) row.get("CONTRACT_DATE"));
+				message.setDeliveryAgent1((String) row.get("DELIVERY_AGENT_1"));
+				message.setExchangeRate((String ) row.get("EXCHANGE_RATE"));
+				message.setId(String.valueOf(row.get("ID")));
+				message.setIntermediary1((String) row.get("INTERMEDIARY_1"));
+				message.setIsdaDate((String) row.get("ISDA_DATE"));
+				message.setOperationScope((String) row.get("OPERATION_SCOPE"));
+				message.setOperationType((String) row.get("OPERATION_TYPE"));
+				message.setOurReference((String) row.get("OUR_REFERENCE"));
+				message.setPartyA((String) row.get("PARTY_A"));
+				message.setPartyB((String) row.get("PARTY_B"));
+				message.setSettlement1((String) row.get("SETTLEMENT_1"));
+				message.setTransactionA((String) row.get("TRANSACTION_A"));
+				message.setTransactionB((String) row.get("TRANSACTION_B"));
+				message.setValueDate((String) row.get("VALUE_DATE"));
+				message.setWeBuy((String) row.get("WE_BUY"));
+				message.setWeSell((String) row.get("WE_SELL"));
+				return message;
+			}).forEach((ss) -> {
+				messagesList.add(ss);
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		try {
+			StringBuilder stringBuilder = new StringBuilder("select * from FX_SWIFT_sg_DATA where id=?");
+			
+			Collection<Map<String, Object>> rows = jdbcTemplate.queryForList(stringBuilder.toString(),  new Object[] {id});
+
+			rows.stream().map((row) -> {
+				Message message = new Message();
+				message.setBeneficiary1((String) row.get("BENEFICIARY_1"));
+				message.setCode((String) row.get("CODE"));
+				message.setContractDate((String) row.get("CONTRACT_DATE"));
+				message.setDeliveryAgent1((String) row.get("DELIVERY_AGENT_1"));
+				message.setExchangeRate((String ) row.get("EXCHANGE_RATE"));
+				message.setId(String.valueOf(row.get("ID")));
+				message.setIntermediary1((String) row.get("INTERMEDIARY_1"));
+				message.setIsdaDate((String) row.get("ISDA_DATE"));
+				message.setOperationScope((String) row.get("OPERATION_SCOPE"));
+				message.setOperationType((String) row.get("OPERATION_TYPE"));
+				message.setOurReference((String) row.get("OUR_REFERENCE"));
+				message.setPartyA((String) row.get("PARTY_A"));
+				message.setPartyB((String) row.get("PARTY_B"));
+				message.setSettlement1((String) row.get("SETTLEMENT_1"));
+				message.setTransactionA((String) row.get("TRANSACTION_A"));
+				message.setTransactionB((String) row.get("TRANSACTION_B"));
+				message.setValueDate((String) row.get("VALUE_DATE"));
+				message.setWeBuy((String) row.get("WE_BUY"));
+				message.setWeSell((String) row.get("WE_SELL"));
+				return message;
+			}).forEach((ss) -> {
+				messagesList.add(ss);
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return messagesList;
+	}
+
+	@Override
+	public void matchUpdate(String id) {
+		jdbcTemplate.update("UPDATE FX_SWIFT_sg_DATA SET STATUS=? WHERE ID=?", new Object[] {"Match", id});
+	}
 	
 	
 	

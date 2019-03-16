@@ -30,6 +30,11 @@
   
 <br/>
 
+ <div class="alert alert-success" style="display:none;">
+   
+    <strong>Success!</strong> Updated successfully
+  </div>
+  
 <div class="row">
 	 <div class="col">
 	 	 <div class="card">
@@ -171,6 +176,34 @@
   </div>
 </div>
 
+
+
+  <!-- The Modal -->
+  <div class="modal" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+         <div class="modal-header">
+          <h4 class="modal-title">Mismatch values</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+         
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" id="matchBtn">Match</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+
  
   <script>
    $( function() {
@@ -198,11 +231,30 @@
 		    $( "#statusId" ).val('');
 	  });
 	  
+	  $("#exampleSearch tbody tr").click(function(){
+		  
+		  var radioValue = $("input[name='optradio']:checked").val();
+		  
+	  });
+	  
+ 	$("#matchBtn").click(function(){
+		  
+		  var mismatch_id = sessionStorage.getItem("mis_match_id");
+		  $.ajax({url: "http://localhost:8080/match/"+mismatch_id, success: function(result){
+			  $('#myModal').modal('hide');
+		    	$(".alert-success").show();
+		  }});
+	  });
+	  
+	  
+	  
+	  
 	  $("#searchBtn").click(function(){
 		  
 		 
-		  var radioValue = $("input[name='optradio']:checked").val();
 		  
+		  var radioValue = $("input[name='optradio']:checked").val();
+		  sessionStorage.setItem("last_selected_val", radioValue);
 		  var queryParam = "?datatype="+radioValue;
 		  
 		    	if($("#datepickerTradeDateFrom").val()!=null && $("#datepickerTradeDateFrom").val()!='') {
@@ -278,7 +330,7 @@
 			    	var constrctRowHTML = "";
 			    	for(var i = 0; i < result.length; i++) {
 			    	    var obj = result[i];
-			    	    constrctRowHTML+="<tr><td>"+obj.transactionA+"</td><td>"+obj.partyA+"</td><td>"+obj.partyB+"</td><td>"+obj.exchangeRate+"</td><td style='color:blue;'>"+obj.weBuy+"</td><td style='color:green;'>"+obj.weSell+"</td></tr>";
+			    	    constrctRowHTML+="<tr data-row-id-attr="+obj.id+"><td>"+obj.transactionA+"</td><td>"+obj.partyA+"</td><td>"+obj.partyB+"</td><td>"+obj.exchangeRate+"</td><td style='color:blue;'>"+obj.weBuy+"</td><td style='color:green;'>"+obj.weSell+"</td></tr>";
 			    	}
 			    	
 			    	$("#matchedTbodySearch").html(constrctRowHTML);
@@ -286,6 +338,42 @@
 			    	   var table = $('#exampleSearch').DataTable( {
 			   	        fixedHeader: true
 			   	    } );
+			    	   
+			    		  $("#exampleSearch tbody tr").click(function(){
+			    			  
+			    			  var radioValue = sessionStorage.getItem("last_selected_val");
+			  
+			    			  if(radioValue==="closefit") {
+				    			  $.ajax({url: "http://localhost:8080/viewfulldata/"+$(this).attr("data-row-id-attr"), success: function(result){
+				    			    	
+				    				  var clientData = result[0];
+				    				  var sgData = result[1];
+				    				  $(".modal-body").html('');
+				    				  
+				    				  sessionStorage.setItem("mis_match_id", sgData.id);
+				    				  
+				    				  if(clientData.partyA!=sgData.partyB) {
+				    					  $(".modal-body").append('Party B:'+clientData.partyA +"-"+ sgData.partyB);
+				    				  }
+				    				  
+				    				  if(clientData.valueDate!=sgData.valueDate) {
+				    					  
+				    					  $(".modal-body").append('<br>Client value Date: '+clientData.valueDate +"/SG value Date:"+ sgData.valueDate);
+				    				  }
+				    				  
+  									if(clientData.exchangeRate!=sgData.exchangeRate) {
+  										$(".modal-body").append('<br>Client Exchange Rate:'+clientData.exchangeRate +"/SG Exchange Rate:"+ sgData.exchangeRate);
+				    				  }
+				    				
+				    					  $("#myModal").modal();
+				    				  
+				    			  }});
+				    			  
+				    			  
+				    			  
+			    			  }
+			    			  
+			    		  });
 			  }});
 
 			  

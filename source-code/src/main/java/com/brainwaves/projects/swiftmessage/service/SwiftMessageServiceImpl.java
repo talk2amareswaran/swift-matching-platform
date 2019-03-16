@@ -29,4 +29,15 @@ public class SwiftMessageServiceImpl implements SwiftMessageService {
 		return swiftMessageServiceDAO.getProposedQueue( tradeFromDate,  tradeToDate,  settlementFromDate,  settlementToDate,  valueFromDate,  valueToDate,  currency,  status);
 	}
 
+	@Override
+	public List<Message> getClientAndSGData(String id) {
+		return swiftMessageServiceDAO.getClientAndSGData(id);
+	}
+
+	@Override
+	public void matchUpdate(String id) {
+		swiftMessageServiceDAO.matchUpdate(id);
+		
+	}
+
 }

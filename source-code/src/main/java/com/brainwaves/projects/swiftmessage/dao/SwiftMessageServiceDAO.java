@@ -12,4 +12,8 @@ public interface SwiftMessageServiceDAO {
 
 	public abstract List<Message> getProposedQueue(String tradeFromDate, String tradeToDate, String settlementFromDate, String settlementToDate, String valueFromDate, String valueToDate, String currency, String status);
 
+	public abstract List<Message> getClientAndSGData(String id);
+
+	public abstract void matchUpdate(String id);
+
 }
